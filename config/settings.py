@@ -80,7 +80,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'db_fertilizers_store',
         'USER': 'postgres',
-        'PASSWORD': '12345'
+        'PASSWORD': '12345',
     }
 }
 
