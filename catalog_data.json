@@ -1,0 +1,54 @@
+[
+  {
+    "model": "catalog.product",
+    "pk": 1,
+    "fields": {
+      "name": "Карбамид марка Б",
+      "description": "Высокоэффективное водорастворимое минеральное удобрение с высокой концентрацией азота",
+      "image": "",
+      "category": 1,
+      "price": 150,
+      "date_create": "2023-05-18",
+      "date_change": "2023-07-26"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+      "name": "NPK 19:4:19",
+      "description": "Сложное минеральное удобрение с высоким содержанием азота, фосфора и калия. ",
+      "image": "",
+      "category": 3,
+      "price": 200,
+      "date_create": "2023-04-20",
+      "date_change": "2023-07-26"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 3,
+    "fields": {
+      "name": "Уксусная кислота",
+      "description": "Используется в пищевой, химической и фармацевтической промышленностях. ",
+      "image": "",
+      "category": 5,
+      "price": 50,
+      "date_create": "2023-06-18",
+      "date_change": "2023-07-26"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 4,
+    "fields": {
+      "name": "КАС",
+      "description": "Жидкое удобрение, которое содержит три формы азота: аммонийный азот, амидный азот и нитратный азот",
+      "image": "",
+      "category": 4,
+      "price": 70,
+      "date_create": "2023-05-25",
+      "date_change": "2023-07-26"
+    }
+  }
+]
