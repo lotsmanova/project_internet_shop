@@ -31,8 +31,14 @@
                     alt="card image dop">
                 <div class="card-body">
                     <p class="card-text">{{ object.name }}</p>
-                    <p class="card-text">{{ object.price}}$</p>
-                    <p class="card-text">{{ object.description }}</p>
+                    <p class="card-text">${{ object.price}}</p>
+                    <p class="card-text">
+                        {% if len(object.description) > 100 %}
+                          {{ object.description[:100] }}
+                        {% else %}
+                          {{ object.description }}
+                        {% endif %}
+                    </p>
                     <button type="button" class="btn btn-lg btn-block btn-outline-primary">Заказать</button>
                 </div>
             </div>

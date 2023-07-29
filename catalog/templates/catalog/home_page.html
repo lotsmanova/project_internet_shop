@@ -24,54 +24,20 @@
 
 <div class="container">
     <div class="row text-center">
+        {% for object in object_list %}
         <div class="col-3">
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">NPK 19:4:19</h4>
+                    <h4 class="my-0 font-weight-normal">{{ object.name }}</h4>
                 </div>
                 <div class="card-body">
-                    <h1 class="card-title pricing-card-title">$ 200</h1>
-                    <p class="card-text">Сложное минеральное удобрение с высоким содержанием азота, фосфора и калия. Цена указана за тонну</p>
+                    <h1 class="card-title pricing-card-title">${{ object.price}}</h1>
+                    <p class="card-text">{{ object.description }}</p>
                     <button type="button" class="btn btn-lg btn-block btn-outline-primary">Заказать</button>
                 </div>
             </div>
         </div>
-        <div class="col-3">
-            <div class="card mb-4 box-shadow">
-                <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Карбамид марка Б</h4>
-                </div>
-                <div class="card-body">
-                    <h1 class="card-title pricing-card-title">$ 150</h1>
-                    <p class="card-text">Высокоэффективное водорастворимое минеральное удобрение с высокой концентрацией азота. Цена указана за тонну</p>
-                    <button type="button" class="btn btn-lg btn-block btn-outline-primary">Заказать</button>
-                </div>
-            </div>
-        </div>
-        <div class="col-3">
-            <div class="card mb-4 box-shadow">
-                <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Уксусная кислота</h4>
-                </div>
-                <div class="card-body">
-                    <h1 class="card-title pricing-card-title">$ 50</h1>
-                    <p class="card-text">Используется в пищевой, химической и фармацевтической промышленностях. Цена указана за куб.метр</p>
-                    <button type="button" class="btn btn-lg btn-block btn-outline-primary">Заказать</button>
-                </div>
-            </div>
-        </div>
-        <div class="col-3">
-            <div class="card mb-4 box-shadow">
-                <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Аммиак</h4>
-                </div>
-                <div class="card-body">
-                    <h1 class="card-title pricing-card-title">$ 100</h1>
-                    <p class="card-text">Используется в качестве сырья в производстве азотных удобрений, полимеров, соды и др. Цена указана за куб.метр</p>
-                    <button type="button" class="btn btn-lg btn-block btn-outline-primary">Заказать</button>
-                </div>
-            </div>
-        </div>
+        {% endfor %}
     </div>
 
     <footer class="pt-4 my-md-5 pt-md-5 border-top">

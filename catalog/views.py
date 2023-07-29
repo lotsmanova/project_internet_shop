@@ -7,26 +7,24 @@ def home_page(request):
     latest_products = Product.objects.order_by('-date_create')[:5]
     for product in latest_products:
         print(product.name, product.price)
-        context = {
-            'object_list': latest_products,
-            'title': 'Главная'
-        }
+    context = {
+        'object_list': Product.objects.all(),
+        'title': 'Главная'
+    }
     return render(request, 'catalog/home_page.html', context)
 
 
 def contact_page(request):
-    contacts = Contact.objects.all()
     context = {
-        'contacts': contacts,
+        'contacts': Contact.objects.all(),
         'title': 'Контакты'
     }
     return render(request, 'catalog/contact_page.html', context)
 
 
 def categories(request):
-    categories = Category.objects.all()
     context = {
-        'object_list': categories,
+        'object_list': Category.objects.all(),
         'title': 'Категории'
     }
     return render(request, 'catalog/categories.html', context)
