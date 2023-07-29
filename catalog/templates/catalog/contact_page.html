@@ -25,11 +25,24 @@
             <div class="card mb-4 box-shadow">
                 <div class="card-body">
                     <table class="table table-striped">
-                        <ul>
+                        <thead>
+                        <tr>
+                          <th>Имя</th>
+                          <th>Email</th>
+                          <th>Телефон</th>
+                          <th>Адрес</th>
+                        </tr>
+                      </thead>
+                      <tbody>
                         {% for contact in contacts %}
-                            <li>{{ contact.name }} - {{ contact.email }} - {{ contact.phone }} - {{ contact.address }}</li>
+                          <tr>
+                            <td>{{ contact.name }}</td>
+                            <td>{{ contact.email }}</td>
+                            <td>{{ contact.phone }}</td>
+                            <td>{{ contact.address }}</td>
+                          </tr>
                         {% endfor %}
-                        </ul>
+                      </tbody>
                     </table>
                 </div>
             </div>
