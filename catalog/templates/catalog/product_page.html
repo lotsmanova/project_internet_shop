@@ -1,5 +1,5 @@
 {% extends 'catalog/base.html' %}
-
+{% load my_tags %}
 {% block content %}
 <h1 class="display-4">{{ title }}</h1>
 {% endblock %}
@@ -10,7 +10,7 @@
     <div class="col-3">
         <div class="card mb-4 box-shadow">
             <img class="card-img-top"
-                src="/media/{{ object.image}}"
+                src="{% mediapath object.image %}"
                 alt="card image dop">
             <div class="card-body">
                 <p class="card-text">{{ object.name }}</p>
