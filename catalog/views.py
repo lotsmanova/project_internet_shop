@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 
 from catalog.form import ProductForm
@@ -5,12 +6,19 @@ from catalog.models import Product, Contact, Category
 
 
 def home_page(request):
+    product_list = Product.objects.all()
+    paginator = Paginator(product_list, 4)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     latest_products = Product.objects.order_by('-date_create')[:5]
     for product in latest_products:
         print(product.name, product.price)
+
     context = {
-        'object_list': Product.objects.all(),
-        'title': 'Главная'
+        'object_list': page_obj,
+        'title': 'Главная',
+        'page_obj': page_obj
     }
     return render(request, 'catalog/home_page.html', context)
 
