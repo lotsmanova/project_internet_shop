@@ -1,0 +1,24 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+<h1 class="display-4">Добавление продукта</h1>
+{% endblock %}
+
+{% block products %}
+<div class="row text-start">
+    <div class="col-6">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Форма для заполнения</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" action="" class="form-floating">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Добавить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

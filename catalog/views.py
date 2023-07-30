@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
+from catalog.form import ProductForm
 from catalog.models import Product, Contact, Category
 
 
@@ -37,3 +38,14 @@ def product_page(request, pk):
         'title': f'{category_item.name}'
     }
     return render(request, 'catalog/product_page.html', context)
+
+
+def add_product(request):
+    if request.method == 'POST':
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('catalog:home_page')
+    else:
+        form = ProductForm()
+    return render(request, 'catalog/add_product.html', {'form': form})
