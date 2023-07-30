@@ -1,0 +1,25 @@
+{% extends 'catalog/base.html' %}
+{% load my_tags %}
+{% block content %}
+<h1 class="display-4">{{ title }}</h1>
+{% endblock %}
+
+{% block products %}
+<div class="row text-center">
+    {% for object in object_list %}
+    <div class="col-3">
+        <div class="card mb-4 box-shadow">
+            <img class="card-img-top"
+                src="{% mediapath object.image %}"
+                alt="card image dop">
+            <div class="card-body">
+                <p class="card-text">{{ object.name }}</p>
+                <p class="card-text">${{ object.price}}</p>
+                <p class="card-text">{{ object.description }}</p>
+                <button type="button" class="btn btn-lg btn-block btn-outline-primary">Заказать</button>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
