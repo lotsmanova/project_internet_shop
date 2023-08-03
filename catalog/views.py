@@ -1,8 +1,8 @@
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 
-from catalog.form import ProductForm
-from catalog.models import Product, Contact, Category
+from catalog.form import ProductForm, BlogForm
+from catalog.models import Product, Contact, Category, Blog
 
 
 class HomeListView(ListView):
@@ -53,3 +53,28 @@ class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:home_page')
+
+
+class BlogCreateView(CreateView):
+    model = Blog
+    form_class = BlogForm
+    success_url = reverse_lazy('catalog:blog_list')
+
+
+class BlogListView(ListView):
+    model = Blog
+
+
+class BlogDetailView(DetailView):
+    model = Blog
+
+
+class BlogUpdateView(UpdateView):
+    model = Blog
+    form_class = BlogForm
+    success_url = reverse_lazy('catalog:blog_list')
+
+
+class BlogDeleteView(DeleteView):
+    model = Blog
+    success_url = reverse_lazy('catalog:blog_list')
