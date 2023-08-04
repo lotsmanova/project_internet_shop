@@ -56,13 +56,8 @@ class Blog(models.Model):
     body = models.TextField(verbose_name='содержимое')
     preview = models.ImageField(upload_to='blog/', verbose_name='превью', **NULLABLE)
     date_create = models.DateField(verbose_name='дата создания', **NULLABLE)
-    is_public = models.BooleanField(default=False, verbose_name='опубликован')
+    is_public = models.BooleanField(default=True, verbose_name='опубликовано')
     count_views = models.PositiveIntegerField(default=0, verbose_name='количество просмотров')
-
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.head)
-        super().save(*args, **kwargs)
 
 
     def __str__(self):
