@@ -12,7 +12,7 @@
                 <h4 class="my-0 font-weight-normal">Форма для заполнения</h4>
             </div>
             <div class="card-body">
-                <form method="post" action="" class="form-floating">
+                <form method="post" action="" class="form-floating" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form.as_p }}
                     <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Добавить</button>
