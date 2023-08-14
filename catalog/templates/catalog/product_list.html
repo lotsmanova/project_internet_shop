@@ -5,21 +5,27 @@
 {% endblock %}
 
 {% block products %}
-<div class="row text-center">
-    {% for object in object_list %}
-    <div class="col-3">
-        <div class="card mb-4 box-shadow">
-            <img class="card-img-top"
-                src="{% mediapath object.image %}"
-                alt="card image dop">
-            <div class="card-body">
-                <p class="card-text">{{ object.name }}</p>
-                <p class="card-text">${{ object.price}}</p>
-                <p class="card-text">{{ object.description }}</p>
-                <button type="button" class="btn btn-lg btn-block btn-outline-primary">Заказать</button>
-            </div>
-        </div>
-    </div>
-    {% endfor %}
+
+<div class="col-md-12 mb-4">
+  <a href="{% url 'catalog:add_product' %}" class="btn btn-sm btn-outline-primary">Добавить продукт</a>
 </div>
+{% for object in object_list %}
+<div class="col-3">
+    <div class="card mb-4 box-shadow">
+        <div class="card-body">
+            <p class="card-text">{{ object }}</p>
+            <div class="d-flex flex-column">
+              <div class="btn-group mt-auto text-right">
+                <a href="{% url 'catalog:product_detail' object.pk %}"
+                   class="btn btn-sm btn-outline-secondary">View</a>
+                <a href="{% url 'catalog:product_update' object.pk %}" type="button"
+                   class="btn btn-sm btn-outline-secondary">Update</a>
+                <a href="{% url 'catalog:product_delete' object.pk %}" type="button"
+                   class="btn btn-sm btn-outline-danger">Delete</a>
+      </div>
+    </div>
+  </div>
+    </div>
+</div>
+{% endfor %}
 {% endblock %}

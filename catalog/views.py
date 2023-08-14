@@ -3,7 +3,7 @@ from django.core.mail import send_mail
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from pytils.templatetags.pytils_translit import slugify
-from catalog.form import ProductForm, BlogForm
+from catalog.forms import ProductForm, BlogForm
 from catalog.models import Product, Contact, Category, Blog
 
 
@@ -52,9 +52,24 @@ class ProductListView(ListView):
         return context_data
 
 
+class ProductDetailView(DetailView):
+    model = Product
+
+
 class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
+    success_url = reverse_lazy('catalog:home_page')
+
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    success_url = reverse_lazy('catalog:home_page')
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
     success_url = reverse_lazy('catalog:home_page')
 
 
