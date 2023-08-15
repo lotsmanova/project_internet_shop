@@ -26,6 +26,10 @@ class Product(models.Model):
     date_change = models.DateField(verbose_name='дата последнего изменения', **NULLABLE)
 
 
+    def active_version(self):
+        return self.version_set.filter(is_active=True).first()
+
+
     def __str__(self):
         return f'{self.name} ({self.category})'
 
@@ -33,6 +37,22 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'товар'
         verbose_name_plural = 'товары'
+
+
+class Version(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='продукт')
+    num = models.PositiveIntegerField(verbose_name='номер версии')
+    name = models.CharField(max_length=150, verbose_name='название версии')
+    is_active = models.BooleanField(verbose_name='признак')
+
+
+    def __str__(self):
+        return f'{self.name} - {self.num}'
+
+
+    class Meta:
+        verbose_name = 'версия'
+        verbose_name_plural = 'версии'
 
 
 class Contact(models.Model):
@@ -49,6 +69,7 @@ class Contact(models.Model):
     class Meta:
         verbose_name = 'контакты'
         verbose_name_plural = 'контакты'
+
 
 class Blog(models.Model):
     head = models.CharField(max_length=200, verbose_name='заголовок')
@@ -67,3 +88,5 @@ class Blog(models.Model):
     class Meta:
         verbose_name = 'запись'
         verbose_name_plural = 'записи'
+
+
