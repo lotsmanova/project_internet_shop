@@ -30,6 +30,15 @@ class VersionForm(StyleFormMixin, forms.ModelForm):
         fields = '__all__'
 
 
+    # def clean_is_active(self):
+    #     cleaned_data = self.cleaned_data['is_active']
+    #     if cleaned_data:
+    #         active_version = Version.objects.filter(is_active=True)
+    #         if active_version.count() >= 1:
+    #             raise forms.ValidationError('Может быть только одна активная форма')
+    #     return cleaned_data
+    #
+
 class BlogForm(forms.ModelForm):
     class Meta:
         model = Blog

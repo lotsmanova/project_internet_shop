@@ -4,6 +4,8 @@ from django.forms import inlineformset_factory
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from pytils.templatetags.pytils_translit import slugify
+
+from django import forms
 from catalog.forms import ProductForm, BlogForm, VersionForm
 from catalog.models import Product, Contact, Category, Blog, Version
 
@@ -70,10 +72,6 @@ class ProductUpdateView(UpdateView):
     template = 'catalog/product_form_with_formset.html'
 
 
-    # def get_success_url(self, *args, **kwargs):
-    #     return reverse('catalog:home_page', args=[self.get_object().pk])
-
-
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         VersionFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
@@ -91,9 +89,10 @@ class ProductUpdateView(UpdateView):
         if formset.is_valid():
             formset.instance = self.object
             formset.save()
-
+        active_versions = Version.objects.filter(product=self.object, is_active=True)
+        if active_versions.count() > 1:
+            formset.errors.append(forms.ValidationError('Может быть только одна активная форма'))
         return super().form_valid(form)
-
 
 
 class ProductDeleteView(DeleteView):
