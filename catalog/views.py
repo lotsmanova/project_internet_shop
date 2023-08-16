@@ -91,7 +91,8 @@ class ProductUpdateView(UpdateView):
             formset.save()
         active_versions = Version.objects.filter(product=self.object, is_active=True)
         if active_versions.count() > 1:
-            formset.errors.append(forms.ValidationError('Может быть только одна активная форма'))
+            form.add_error(None, 'Может быть только одна активная форма')
+            return self.form_invalid(form)
         return super().form_valid(form)
 
 

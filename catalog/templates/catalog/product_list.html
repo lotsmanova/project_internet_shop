@@ -14,6 +14,11 @@
     <div class="card mb-4 box-shadow">
         <div class="card-body">
             <p class="card-text">{{ object }}</p>
+            <p class="card-text">
+                {% if object.active_version %}
+                    {{ object.active_version }}
+                {% endif %}
+            </p>
             <div class="d-flex flex-column">
               <div class="btn-group mt-auto text-right">
                 <a href="{% url 'catalog:product_detail' object.pk %}"

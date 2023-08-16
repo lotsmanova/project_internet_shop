@@ -25,7 +25,7 @@ class Product(models.Model):
     date_create = models.DateField(verbose_name='дата создания', **NULLABLE)
     date_change = models.DateField(verbose_name='дата последнего изменения', **NULLABLE)
 
-
+    @property
     def active_version(self):
         return self.version_set.filter(is_active=True).first()
 
