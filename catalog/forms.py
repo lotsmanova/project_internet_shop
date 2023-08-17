@@ -2,6 +2,8 @@ from django import forms
 
 from catalog.models import Product, Blog, Version
 
+FORBIDDEN_WORDS = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар']
+
 class StyleFormMixin:
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -18,7 +20,7 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
     def clean_name(self):
         cleaned_data = self.cleaned_data.get('name')
         for data in cleaned_data.split(' '):
-            if data in ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар']:
+            if data in FORBIDDEN_WORDS:
                 raise forms.ValidationError('Ошибка валидации. Некоррекное название')
         return cleaned_data
 
