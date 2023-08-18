@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     'catalog.apps.CatalogConfig',
     'blog.apps.BlogConfig',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
@@ -141,3 +142,6 @@ EMAIL_PORT = 465
 EMAIL_HOST_USER = 'MC.nevazot@yandex.ru'
 EMAIL_HOST_PASSWORD = '123456789MC.nevazot'
 EMAIL_USE_SSL = True
+
+
+AUTH_USER_MODEL = 'users.User'

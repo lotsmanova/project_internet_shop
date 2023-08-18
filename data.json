@@ -1,0 +1,102 @@
+[
+  {
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+      "name": "Азотное удобрение",
+      "description": "минеральное удобрение"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+      "name": "Фосфорное удобрение",
+      "description": ""
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+      "name": "КАС",
+      "description": ""
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+      "name": "Карбамид",
+      "description": "description",
+      "image": "",
+      "category": 1,
+      "price": 70,
+      "date_create": "2022-02-01",
+      "date_change": "2023-01-01"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 4,
+    "fields": {
+      "name": "NPK 19:4:19",
+      "description": "сложное удобрение",
+      "image": "",
+      "category": 1,
+      "price": 100,
+      "date_create": "2023-05-18",
+      "date_change": "2023-07-31"
+    }
+  },
+  {
+    "model": "catalog.version",
+    "pk": 1,
+    "fields": {
+      "product": 2,
+      "num": 3,
+      "name": "version 3.0",
+      "is_active": false
+    }
+  },
+  {
+    "model": "catalog.version",
+    "pk": 2,
+    "fields": {
+      "product": 2,
+      "num": 4,
+      "name": "version 4.0",
+      "is_active": false
+    }
+  },
+  {
+    "model": "catalog.version",
+    "pk": 3,
+    "fields": {
+      "product": 4,
+      "num": 1,
+      "name": "version 1.0",
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.version",
+    "pk": 4,
+    "fields": {
+      "product": 4,
+      "num": 2,
+      "name": "version 2.0",
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.version",
+    "pk": 5,
+    "fields": {
+      "product": 4,
+      "num": 2,
+      "name": "version 2.0",
+      "is_active": false
+    }
+  }
+]
