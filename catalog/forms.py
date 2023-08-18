@@ -1,6 +1,6 @@
 from django import forms
 
-from catalog.models import Product, Blog, Version
+from catalog.models import Product, Version
 
 FORBIDDEN_WORDS = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар']
 
@@ -31,7 +31,3 @@ class VersionForm(StyleFormMixin, forms.ModelForm):
         fields = '__all__'
 
 
-class BlogForm(forms.ModelForm):
-    class Meta:
-        model = Blog
-        fields = '__all__'

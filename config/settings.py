@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.core.mail',
 
     'catalog.apps.CatalogConfig',
+    'blog.apps.BlogConfig',
 ]
 
 MIDDLEWARE = [
