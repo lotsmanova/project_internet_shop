@@ -1,16 +1,14 @@
-from django.conf import settings
-from django.core.mail import send_mail
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import inlineformset_factory
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
-from pytils.templatetags.pytils_translit import slugify
-
-from django import forms
-from catalog.forms import ProductForm, BlogForm, VersionForm
-from catalog.models import Product, Contact, Category, Blog, Version
+from catalog.forms import ProductForm, VersionForm
+from catalog.models import Product, Contact, Category, Version
 
 
 class HomeListView(ListView):
+    """Контроллер общего просмотра"""
+
     model = Product
     template_name = 'catalog/home_list.html'
     paginate_by = 4
@@ -25,11 +23,15 @@ class HomeListView(ListView):
 
 
 class ContactListView(ListView):
+    """Контроллер общего просмотра"""
+
     model = Contact
     context_object_name = 'contacts'
 
 
 class CategoryListView(ListView):
+    """Контроллер общего просмотра"""
+
     model = Category
     extra_context = {
         'title': 'Категории'
@@ -37,6 +39,8 @@ class CategoryListView(ListView):
 
 
 class ProductListView(ListView):
+    """Контроллер общего просмотра"""
+
     model = Product
 
     def get_queryset(self):
@@ -56,20 +60,35 @@ class ProductListView(ListView):
 
 
 class ProductDetailView(DetailView):
+    """Контроллер просмотра записи"""
+
     model = Product
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
+    """Контроллер создания"""
+
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:home_page')
+    login_url = reverse_lazy('users:login')
+
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.user = self.request.user
+        self.object.save()
+
+        return super().form_valid(form)
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
+    """Контроллер редактирования"""
+
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:home_page')
     template = 'catalog/product_form_with_formset.html'
+    login_url = reverse_lazy('users:login')
 
 
     def get_context_data(self, **kwargs):
@@ -96,69 +115,10 @@ class ProductUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
+    """Контроллер удаления"""
+
     model = Product
     success_url = reverse_lazy('catalog:home_page')
+    login_url = reverse_lazy('users:login')
 
-
-class BlogCreateView(CreateView):
-    model = Blog
-    form_class = BlogForm
-    success_url = reverse_lazy('catalog:blog_list')
-
-    def form_valid(self, form):
-        if form.is_valid():
-            new_net = form.save()
-            new_net.slug = slugify(new_net.head)
-            new_net.save()
-        return super().form_valid(form)   
-
-
-class BlogListView(ListView):
-    model = Blog
-
-    def get_queryset(self, *args, **kwargs):
-        queryset = super().get_queryset(*args, **kwargs)
-        queryset = queryset.filter(is_public=True)
-        return queryset
-
-
-class BlogDetailView(DetailView):
-    model = Blog
-    
-    def get_object(self, queryset=None):
-        self.object = super().get_object(queryset)
-        self.object.count_views += 1
-        self.object.save()
-        if self.object.count_views == 100:
-            send_mail(
-                'Поздравляем!',
-                f'Ваша статья "{self.object.head}" набрала 100 просмотров!',
-                settings.EMAIL_HOST_USER,
-                ['lotsmanovavioletta@yandex.ru'],
-                fail_silently=False,
-            )
-        return self.object
-
-
-
-class BlogUpdateView(UpdateView):
-    model = Blog
-    form_class = BlogForm
-    # success_url = reverse_lazy('catalog:blog_list')
-
-    def form_valid(self, form):
-        if form.is_valid():
-            new_net = form.save()
-            new_net.slug = slugify(new_net.head)
-            new_net.save()
-        return super().form_valid(form)
-
-
-    def get_success_url(self):
-        return reverse('catalog:blog_detail', args=[self.kwargs.get('pk')])
-
-
-class BlogDeleteView(DeleteView):
-    model = Blog
-    success_url = reverse_lazy('catalog:blog_list')

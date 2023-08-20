@@ -1,10 +1,12 @@
 from django import forms
 
-from catalog.models import Product, Blog, Version
+from catalog.models import Product, Version
 
 FORBIDDEN_WORDS = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар']
 
 class StyleFormMixin:
+    """Общий стиль форм"""
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
@@ -12,10 +14,11 @@ class StyleFormMixin:
 
 
 class ProductForm(StyleFormMixin, forms.ModelForm):
+    """Форма добавления продукта"""
+
     class Meta:
         model = Product
-        fields = '__all__'
-
+        exclude = ('user',)
 
     def clean_name(self):
         cleaned_data = self.cleaned_data.get('name')
@@ -26,12 +29,10 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
 
 
 class VersionForm(StyleFormMixin, forms.ModelForm):
+    """Форма добавления версии продукта"""
+
     class Meta:
         model = Version
         fields = '__all__'
 
 
-class BlogForm(forms.ModelForm):
-    class Meta:
-        model = Blog
-        fields = '__all__'

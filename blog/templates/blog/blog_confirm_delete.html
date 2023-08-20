@@ -14,7 +14,7 @@
                             {% csrf_token %}
                             <h6>Вы хотите удалить запись "{{ object.head }}"?</h6>
                             <button type="submit" class="btn btn-lg btn-outline-primary">Подтвердить</button>
-                            <a href="{% url 'catalog:blog_list' %}" class="btn btn-lg btn-outline-warning">Отмена</a>
+                            <a href="{% url 'blog:blog_list' %}" class="btn btn-lg btn-outline-warning">Отмена</a>
                         </form>
                     </div>
                 </div>
