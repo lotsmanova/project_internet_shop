@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
@@ -9,10 +10,11 @@ from blog.forms import BlogForm
 from blog.models import Blog
 
 
-class BlogCreateView(CreateView):
+class BlogCreateView(LoginRequiredMixin, CreateView):
     model = Blog
     form_class = BlogForm
     success_url = reverse_lazy('blog:blog_list')
+    login_url = reverse_lazy('users:login')
 
     def form_valid(self, form):
         if form.is_valid():
@@ -49,11 +51,11 @@ class BlogDetailView(DetailView):
         return self.object
 
 
-class BlogUpdateView(UpdateView):
+class BlogUpdateView(LoginRequiredMixin, UpdateView):
     model = Blog
     form_class = BlogForm
+    login_url = reverse_lazy('users:login')
 
-    # success_url = reverse_lazy('blog:blog_list')
 
     def form_valid(self, form):
         if form.is_valid():
@@ -66,7 +68,8 @@ class BlogUpdateView(UpdateView):
         return reverse('blog:blog_detail', args=[self.kwargs.get('pk')])
 
 
-class BlogDeleteView(DeleteView):
+class BlogDeleteView(LoginRequiredMixin, DeleteView):
     model = Blog
     success_url = reverse_lazy('blog:blog_list')
+    login_url = reverse_lazy('users:login')
 
