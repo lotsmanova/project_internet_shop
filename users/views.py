@@ -14,9 +14,9 @@ from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views import View
-from django.views.generic import CreateView, TemplateView
+from django.views.generic import CreateView, TemplateView, UpdateView
 
-from users.forms import UserRegisterForm
+from users.forms import UserRegisterForm, UserForm
 from users.models import User
 from users.tokens import account_activation_token
 
@@ -70,3 +70,12 @@ class UserActivateView(TemplateView):
 
         return self.render_to_response({'activated': False})
 
+
+class UserProfileView(UpdateView):
+    model = User
+    form_class = UserForm
+    template_name = 'users/profile.html'
+    success_url = reverse_lazy('users:profile')
+
+    def get_object(self, queryset=None):
+        return self.request.user
