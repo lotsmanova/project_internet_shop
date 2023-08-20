@@ -1,37 +1,36 @@
 import random
-
 from django.conf import settings
-from django.contrib.auth import login, get_user_model, update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth.tokens import default_token_generator
-from django.contrib.auth.views import LoginView as BaseLoginView
+from django.contrib.auth.views import LoginView as BaseLoginView, PasswordResetView, PasswordResetConfirmView
 from django.contrib.auth.views import LogoutView as BaseLogoutView
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
-from django.template.context_processors import request
+from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy, reverse
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.views import View
 from django.views.generic import CreateView, TemplateView, UpdateView
-
-from users.forms import UserRegisterForm, UserForm
+from users.forms import UserRegisterForm, UserForm, UserFormPasswordForm, UserSetNewPasswordForm
 from users.models import User
 from users.tokens import account_activation_token
 
 
 class LoginView(BaseLoginView):
+    """Контроллер входа в аккаунт"""
+
     template_name = 'users/login.html'
 
 
 class LogoutView(BaseLogoutView):
+    """Контроллер выхода из аккаунта"""
+
     pass
 
 
 class RegisterView(CreateView):
+    """Контроллер регистрации пользователя"""
+
     model = User
     form_class = UserRegisterForm
     template_name = 'users/register.html'
@@ -56,6 +55,8 @@ class RegisterView(CreateView):
 
 
 class UserActivateView(TemplateView):
+    """Контроллер верификации аккаунта"""
+
     template_name = 'users/activate.html'
 
     def get(self, request, uidb64, token, *args, **kwargs):
@@ -74,6 +75,8 @@ class UserActivateView(TemplateView):
 
 
 class UserProfileView(UpdateView):
+    """Контроллер профиля пользователя"""
+
     model = User
     form_class = UserForm
     success_url = reverse_lazy('users:profile')
@@ -83,6 +86,8 @@ class UserProfileView(UpdateView):
 
 
 def generate_new_password(request):
+    """Контроллер генерации нового пароля"""
+
     new_password = ''.join([str(random.randint(0, 9)) for _ in range(12)])
 
     send_mail(
@@ -95,3 +100,33 @@ def generate_new_password(request):
     request.user.set_password(new_password)
     request.user.save()
     return redirect(reverse('catalog:home_page'))
+
+
+class UserForgotPasswordView(SuccessMessageMixin, PasswordResetView):
+    """Контроллер для сброса пароля"""
+
+    form_class = UserFormPasswordForm
+    template_name = 'users/password_reset.html'
+    success_url = reverse_lazy('catalog:home_page')
+    success_message = 'Письмо с инструкцией по восстановлению пароля отправлена на ваш email'
+    subject_template_name = 'users/email/password_reset_subject.txt'
+    email_template_name = 'users/email/password_reset_mail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Запрос на восстановление пароля'
+        return context
+
+
+class UserPasswordResetConfirmView(SuccessMessageMixin, PasswordResetConfirmView):
+    """Контроллер создания нового пароля"""
+
+    form_class = UserSetNewPasswordForm
+    template_name = 'users/password_reset_confirm.html'
+    success_url = reverse_lazy('catalog:home_page')
+    success_message = 'Пароль успешно изменен. Можете авторизоваться на сайте.'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Установить новый пароль'
+        return context
