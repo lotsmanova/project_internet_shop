@@ -1,2 +1,7 @@
-<p>Для активации вашей учетной записи перейдите по следующей ссылке:</p>
-<a href="{{ activation_url }}">{{ activation_url }}</a>
+{% autoescape off %}
+Привет! Перейдите по ссылке ниже для завершения регистрации:
+
+http://{{ domain }}{% url 'users:activate' uidb64=uid token=token %}
+
+Спасибо за регистрацию!
+{% endautoescape %}

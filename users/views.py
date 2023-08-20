@@ -52,6 +52,7 @@ class RegisterView(CreateView):
         send_mail(mail_subject, message, settings.EMAIL_HOST_USER, [new_user.email])
         return super().form_valid(form)
 
+
 class UserActivateView(TemplateView):
     template_name = 'users/activate.html'
 
