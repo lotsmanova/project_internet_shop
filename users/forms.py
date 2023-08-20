@@ -34,10 +34,12 @@ class UserForm(StyleFormMixin, UserChangeForm):
 
 class UserFormPasswordForm(StyleFormMixin, PasswordResetForm):
     """Форма сброса пароля"""
+
     pass
 
 
 class UserSetNewPasswordForm(StyleFormMixin, SetPasswordForm):
     """Форма создания пароля"""
+
     pass
 

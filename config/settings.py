@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django.contrib.sites',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
@@ -144,6 +145,7 @@ EMAIL_PORT = 465
 EMAIL_HOST_USER = 'MC.nevazot@yandex.ru'
 EMAIL_HOST_PASSWORD = '123456789MC.nevazot'
 EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # настройки пользователей
 AUTH_USER_MODEL = 'users.User'
@@ -152,3 +154,6 @@ LOGIN_REDIRECT_URL = '/'
 
 # настройки генерации токена
 ACCOUNT_ACTIVATION_DAYS = 7
+
+
+SITE_ID = 1

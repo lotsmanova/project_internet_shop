@@ -1,15 +1,14 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import inlineformset_factory
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
-
-
-from django import forms
 from catalog.forms import ProductForm, VersionForm
 from catalog.models import Product, Contact, Category, Version
 
 
 class HomeListView(ListView):
+    """Контроллер общего просмотра"""
+
     model = Product
     template_name = 'catalog/home_list.html'
     paginate_by = 4
@@ -24,11 +23,15 @@ class HomeListView(ListView):
 
 
 class ContactListView(ListView):
+    """Контроллер общего просмотра"""
+
     model = Contact
     context_object_name = 'contacts'
 
 
 class CategoryListView(ListView):
+    """Контроллер общего просмотра"""
+
     model = Category
     extra_context = {
         'title': 'Категории'
@@ -36,6 +39,8 @@ class CategoryListView(ListView):
 
 
 class ProductListView(ListView):
+    """Контроллер общего просмотра"""
+
     model = Product
 
     def get_queryset(self):
@@ -55,10 +60,14 @@ class ProductListView(ListView):
 
 
 class ProductDetailView(DetailView):
+    """Контроллер просмотра записи"""
+
     model = Product
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
+    """Контроллер создания"""
+
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:home_page')
@@ -73,6 +82,8 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
 
 
 class ProductUpdateView(LoginRequiredMixin, UpdateView):
+    """Контроллер редактирования"""
+
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:home_page')
@@ -105,6 +116,8 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class ProductDeleteView(LoginRequiredMixin, DeleteView):
+    """Контроллер удаления"""
+
     model = Product
     success_url = reverse_lazy('catalog:home_page')
     login_url = reverse_lazy('users:login')

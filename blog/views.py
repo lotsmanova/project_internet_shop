@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
-from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 from pytils.templatetags.pytils_translit import slugify
@@ -11,6 +10,8 @@ from blog.models import Blog
 
 
 class BlogCreateView(LoginRequiredMixin, CreateView):
+    """Контроллер создания"""
+
     model = Blog
     form_class = BlogForm
     success_url = reverse_lazy('blog:blog_list')
@@ -25,6 +26,8 @@ class BlogCreateView(LoginRequiredMixin, CreateView):
 
 
 class BlogListView(ListView):
+    """Контроллер общего просмотра"""
+
     model = Blog
 
     def get_queryset(self, *args, **kwargs):
@@ -34,6 +37,8 @@ class BlogListView(ListView):
 
 
 class BlogDetailView(DetailView):
+    """Контроллер просмотра записи"""
+
     model = Blog
 
     def get_object(self, queryset=None):
@@ -52,6 +57,7 @@ class BlogDetailView(DetailView):
 
 
 class BlogUpdateView(LoginRequiredMixin, UpdateView):
+    """Контроллер редактирования"""
     model = Blog
     form_class = BlogForm
     login_url = reverse_lazy('users:login')
@@ -69,6 +75,7 @@ class BlogUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class BlogDeleteView(LoginRequiredMixin, DeleteView):
+    """Контроллер удаления"""
     model = Blog
     success_url = reverse_lazy('blog:blog_list')
     login_url = reverse_lazy('users:login')
