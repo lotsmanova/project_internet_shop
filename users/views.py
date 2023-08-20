@@ -1,3 +1,5 @@
+import random
+
 from django.conf import settings
 from django.contrib.auth import login, get_user_model, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
@@ -10,7 +12,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template.context_processors import request
 from django.template.loader import render_to_string
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views import View
@@ -74,8 +76,22 @@ class UserActivateView(TemplateView):
 class UserProfileView(UpdateView):
     model = User
     form_class = UserForm
-    template_name = 'users/profile.html'
     success_url = reverse_lazy('users:profile')
 
     def get_object(self, queryset=None):
         return self.request.user
+
+
+def generate_new_password(request):
+    new_password = ''.join([str(random.randint(0, 9)) for _ in range(12)])
+
+    send_mail(
+        'Смена пароля',
+        f'Ваш новый пароль "{new_password}"',
+        settings.EMAIL_HOST_USER,
+        [request.user.email],
+        fail_silently=False,
+    )
+    request.user.set_password(new_password)
+    request.user.save()
+    return redirect(reverse('catalog:home_page'))
