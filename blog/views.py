@@ -7,6 +7,7 @@ from pytils.templatetags.pytils_translit import slugify
 
 from blog.forms import BlogForm
 from blog.models import Blog
+from blog.services import blog_send_mail
 
 
 class BlogCreateView(LoginRequiredMixin, CreateView):
@@ -46,13 +47,7 @@ class BlogDetailView(DetailView):
         self.object.count_views += 1
         self.object.save()
         if self.object.count_views == 100:
-            send_mail(
-                'Поздравляем!',
-                f'Ваша статья "{self.object.head}" набрала 100 просмотров!',
-                settings.EMAIL_HOST_USER,
-                ['lotsmanovavioletta@yandex.ru'],
-                fail_silently=False,
-            )
+            blog_send_mail(self.object)
         return self.object
 
 

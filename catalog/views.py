@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from catalog.forms import ProductForm, VersionForm
 from catalog.models import Product, Contact, Category, Version
+from catalog.services import get_category_list_cache
 
 
 class HomeListView(ListView):
@@ -36,6 +37,12 @@ class CategoryListView(ListView):
     extra_context = {
         'title': 'Категории'
     }
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+
+        context_data['subjects'] = get_category_list_cache()
+        return context_data
 
 
 class ProductListView(ListView):

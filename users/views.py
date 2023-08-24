@@ -13,6 +13,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import CreateView, TemplateView, UpdateView
 from users.forms import UserRegisterForm, UserForm, UserFormPasswordForm, UserSetNewPasswordForm
 from users.models import User
+from users.services import register_send_mail
 from users.tokens import account_activation_token
 
 
@@ -42,15 +43,9 @@ class RegisterView(CreateView):
         new_user.save()
 
         current_site = get_current_site(self.request)
-        mail_subject = 'Активация аккаунта'
-        message = render_to_string('users/activation_email.html', {
-            'user': new_user,
-            'domain': current_site.domain,
-            'uid': urlsafe_base64_encode(force_bytes(new_user.pk)),
-            'token': account_activation_token.make_token(new_user),
-        })
 
-        send_mail(mail_subject, message, settings.EMAIL_HOST_USER, [new_user.email])
+        register_send_mail(new_user, current_site)
+
         return super().form_valid(form)
 
 
@@ -83,23 +78,6 @@ class UserProfileView(UpdateView):
 
     def get_object(self, queryset=None):
         return self.request.user
-
-
-def generate_new_password(request):
-    """Контроллер генерации нового пароля"""
-
-    new_password = ''.join([str(random.randint(0, 9)) for _ in range(12)])
-
-    send_mail(
-        'Смена пароля',
-        f'Ваш новый пароль "{new_password}"',
-        settings.EMAIL_HOST_USER,
-        [request.user.email],
-        fail_silently=False,
-    )
-    request.user.set_password(new_password)
-    request.user.save()
-    return redirect(reverse('catalog:home_page'))
 
 
 class UserForgotPasswordView(SuccessMessageMixin, PasswordResetView):
